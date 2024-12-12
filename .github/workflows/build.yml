@@ -1,0 +1,39 @@
+name: Build
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "Build binary for aarch64"
+        required: true
+        type: boolean
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install musl-tools -y
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash
+        rustup target add aarch64-unknown-linux-musl -y
+
+    - name: Build
+      run: cargo build --target aarch64-unknown-linux-musl --release
+
+    - name: Check info
+      run: |
+        ls -ltrah
+        ls -ltrah target/aarch64-unknown-linux-musl/release/
+        tree
+
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        path: target/aarch64-unknown-linux-musl/release/*
+
+    
+    
+   
