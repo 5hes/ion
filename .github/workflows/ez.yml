@@ -1,0 +1,37 @@
+name: ez
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+
+      - name: Setup-2
+        run: |
+          sudo apt-get update
+          sudo apt-get install musl-tools -y
+
+      - name: Add aarch64 musl target
+        run: rustup target add aarch64-unknown-linux-musl
+
+      - name: Build for aarch64 musl
+        run: cargo build --target aarch64-unknown-linux-musl --release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: aarch64-musl-binary
+          path: target/aarch64-unknown-linux-musl/release/*
+
+      - name: Run tests
+        run: cargo test --target aarch64-unknown-linux-musl --release
