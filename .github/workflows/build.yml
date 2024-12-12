@@ -16,7 +16,7 @@ jobs:
     - name: Setup environment
       run: |
         sudo apt-get update
-        sudo apt-get install musl-tools -y
+        sudo apt-get install musl-tools aarch64-linux-musl-gcc -y
         # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
         wget -O rustup-init.sh "https://sh.rustup.rs"
         chmod 777 rustup-init.sh
