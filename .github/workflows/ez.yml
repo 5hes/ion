@@ -43,4 +43,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: aarch64-musl-binary
-          path: target/aarch64-unknown-linux-musl/release/*
+          path: target/aarch64-unknown-linux-musl/release/ion
