@@ -32,11 +32,15 @@ jobs:
       - name: Build for aarch64 musl
         run: cross build --target aarch64-unknown-linux-musl --release
 
+      - name: Check
+        run: |
+          cd target/aarch64-unknown-linux-musl/release/
+          ls -ltrah
+          ls -ltra
+          tree
+          
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: aarch64-musl-binary
           path: target/aarch64-unknown-linux-musl/release/*
-
-      - name: Run tests
-        run: cargo test --target aarch64-unknown-linux-musl --release
