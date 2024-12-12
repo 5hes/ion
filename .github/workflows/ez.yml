@@ -15,17 +15,22 @@ jobs:
         with:
           toolchain: nightly
           override: true
-
+          
+      - name: Install cross-compilation toolchain
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cross
+          
       - name: Setup-2
         run: |
           sudo apt-get update
           sudo apt-get install musl-tools -y
 
       - name: Add aarch64 musl target
-        run: rustup target add aarch64-unknown-linux-musl
+        run: rustup target add aarch64-unknown-linux-musl --toolchain=nightly
 
       - name: Build for aarch64 musl
-        run: cargo build --target aarch64-unknown-linux-musl --release
+        run: cross build --target aarch64-unknown-linux-musl --release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
