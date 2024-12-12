@@ -17,9 +17,11 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install musl-tools -y
-        # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-        rustup target add aarch64-unknown-linux-musl
+        # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+        wget -O rustup-init.sh "https://sh.rustup.rs"
+        chmod 777 rustup-init.sh
+        ./rustup-init.sh --default-toolchain nightly
+        rustup target add aarch64-unknown-linux-musl --toolchain=nightly
 
     - name: Build
       run: cargo build --target aarch64-unknown-linux-musl --release
