@@ -15,8 +15,11 @@ jobs:
     - uses: actions/checkout@v4
     - name: Setup environment
       run: |
+        ENV CC_aarch64_unknown_linux_musl=clang
+        ENV AR_aarch64_unknown_linux_musl=llvm-ar
+        ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS="-Clink-self-contained=yes -Clinker=rust-lld"
         sudo apt-get update
-        sudo apt-get install musl-tools gcc clang -y
+        sudo apt-get install musl-tools clang llvm -y
         # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
         wget -O rustup-init.sh "https://sh.rustup.rs"
         chmod 777 rustup-init.sh
