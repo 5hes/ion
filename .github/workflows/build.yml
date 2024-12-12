@@ -20,6 +20,7 @@ jobs:
         # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
         wget -O rustup-init.sh "https://sh.rustup.rs"
         chmod 777 rustup-init.sh
+        ./rustup-init.sh --help
         ./rustup-init.sh --default-toolchain nightly
         rustup target add aarch64-unknown-linux-musl --toolchain=nightly
 
