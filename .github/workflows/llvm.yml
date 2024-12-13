@@ -6,6 +6,7 @@ on:
         description: "Download and cache llvm"
         required: true
         type: boolean
+        
 permissions: write-all
 jobs:
   Build:
@@ -15,14 +16,19 @@ jobs:
     - uses: actions/checkout@v4
     - name: Setup llvm
       run: |
-        wget "https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.5/LLVM-19.1.5-Linux-X64.tar.xz"
-        tar -xf LLVM-19.1.5-Linux-X64.tar.xz
+        wget -q "https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.5/LLVM-19.1.5-Linux-X64.tar.xz"
+        tar -xf LLVM-19.1.5-Linux-X64.tar.xz > /dev/null 2>&1
         rm LLVM-19.1.5-Linux-X64.tar.xz
         
     - name: Cache llvm
       run: |
         git config --global user.name "GitHub Action"
         git config --global user.email "action@github.com"
-        git add LLVM-19.1.5-Linux-X64
-        git commit -m "Cache llvm" || echo "No changes to commit"
-        git push origin main
+        git add LLVM-19.1.5-Linux-X64 > /dev/null 2>&1
+        git commit -m "Cache llvm" > /dev/null 2>&1
+        
+    - name: Push changes
+      run: |
+        git push origin main > /dev/null 2>&1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
