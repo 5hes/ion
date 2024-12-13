@@ -9,7 +9,7 @@ on:
         
 permissions: write-all
 jobs:
-  Build:
+  llvm:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,8 +17,18 @@ jobs:
     - name: Setup llvm
       run: |
         wget -q "https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.5/LLVM-19.1.5-Linux-X64.tar.xz"
+        
+    - name: Cache llvm archive
+      run: |
+        git config --global user.name "GitHub Action"
+        git config --global user.email "action@github.com"
+        git config --global http.postBuffer 3221225472
+        git add . > /dev/null 2>&1
+        git commit -m "Cache llvm" > /dev/null 2>&1
+        git push origin master
+        # QAQAQAQAQAQAQ
         tar -xf LLVM-19.1.5-Linux-X64.tar.xz > /dev/null 2>&1
-        # rm LLVM-19.1.5-Linux-X64.tar.xz
+        rm LLVM-19.1.5-Linux-X64.tar.xz
         
     - name: Cache llvm
       run: |
