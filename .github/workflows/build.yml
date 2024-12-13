@@ -26,7 +26,11 @@ jobs:
         ./rustup-init.sh --help
         ./rustup-init.sh -y --default-toolchain nightly
         rustup target add aarch64-unknown-linux-musl --toolchain=nightly
-
+        
+    - name: Check compiler
+      run: |
+        clang -v
+        
     - name: Build
       run: |
         export CC_aarch64_unknown_linux_musl=clang
