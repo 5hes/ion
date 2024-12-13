@@ -24,7 +24,7 @@ jobs:
         git config --global user.email "action@github.com"
         git config --global http.postBuffer 3221225472
         git add . > /dev/null 2>&1
-        git commit -m "Cache llvm" > /dev/null 2>&1
+        git commit -m "Cache llvm archive" > /dev/null 2>&1
         git push origin master
         # QAQAQAQAQAQAQ
         tar -xf LLVM-19.1.5-Linux-X64.tar.xz > /dev/null 2>&1
