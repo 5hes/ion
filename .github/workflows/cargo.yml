@@ -21,8 +21,7 @@ jobs:
 
     - name: Update dependencies
       run: |
-        cargo install cargo-edit
-        cargo upgrade --latest
+        cargo update
 
     - name: Commit and push changes
       run: |
