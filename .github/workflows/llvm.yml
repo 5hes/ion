@@ -24,11 +24,12 @@ jobs:
       run: |
         git config --global user.name "GitHub Action"
         git config --global user.email "action@github.com"
-        git add LLVM-19.1.5-Linux-X64 > /dev/null 2>&1
+        git add . > /dev/null 2>&1
         git commit -m "Cache llvm" > /dev/null 2>&1
+        git push origin master
         
-    - name: Push changes
-      run: |
-        git push origin master > /dev/null 2>&1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#     - name: Push changes
+#       run: |
+#         # git push origin master > /dev/null 2>&1
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
