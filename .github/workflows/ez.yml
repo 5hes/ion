@@ -23,6 +23,8 @@ jobs:
           
       - name: Setup-2
         run: |
+          mv Cargo.toml.bak Cargo.toml
+          mv Cargo.lock.bak Cargo.lock
           sudo apt-get update
           sudo apt-get install musl-tools -y
 
