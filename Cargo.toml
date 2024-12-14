@@ -100,7 +100,7 @@ redox_users = "*"
 [target."cfg(target_os = \"dragonfly\")".dependencies]
 
 [target.aarch64-unknown-linux-musl]
-linker = "clang"
+linker = "ld.lld"
 ar = "llvm-ar"
 rustflags = [
     "-C", "target-feature=+neon",  # 启用 NEON 指令集
