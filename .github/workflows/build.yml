@@ -61,13 +61,13 @@ jobs:
       run: |
         clang -v
         clang-19 -v
-        llvm-ar -v
+        llvm-ar-19 -v
         apt-cache policy llvm-19
 
     - name: Build
       run: |
         export CC_aarch64_unknown_linux_musl=clang-19
-        export AR_aarch64_unknown_linux_musl=llvm-ar
+        export AR_aarch64_unknown_linux_musl=llvm-ar-19
         # export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS="-Clink-self-contained=yes -Clinker=rust-lld"
 
         mv Cargo.toml.bak Cargo.toml
