@@ -13,6 +13,23 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Replace software sources with the latest
+      run: |
+        # 删除原有的软件源
+        sudo rm -f /etc/apt/sources.list
+
+        # 添加最新的 Ubuntu 24.04 (Noble Numbat) 官方软件源
+        echo "deb http://archive.ubuntu.com/ubuntu/ noble main restricted universe multiverse" | sudo tee /etc/apt/sources.list
+        echo "deb http://archive.ubuntu.com/ubuntu/ noble-updates main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+        echo "deb http://archive.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+        echo "deb http://archive.ubuntu.com/ubuntu/ noble-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+
+    - name: Add Ubuntu GPG key
+      run: |
+        # 添加 Ubuntu 官方 GPG 密钥
+        curl -fsSL http://archive.ubuntu.com/ubuntu/project/ubuntu-archive-keyring.gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/ubuntu.gpg
+
     - name: Set up LLVM APT repository
       run: |
         sudo apt-get update
