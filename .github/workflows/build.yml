@@ -67,9 +67,12 @@ jobs:
 
         mv Cargo.toml.bak Cargo.toml
         mv Cargo.lock.bak Cargo.lock
-        rustup update
+        rm /home/runner/.cargo/bin/rust-analyzer
+        rm /home/runner/.cargo/bin/rustfmt
+        rm /home/runner/.cargo/bin/cargo-fmt
         cargo clean
         cargo add decimal
+        rustup update
         export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=ld.lld
         export CC=clang-19
         export CXX=clang++-19
