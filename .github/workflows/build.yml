@@ -1,5 +1,7 @@
 name: Build
 on:
+  push:
+  pull_request:
   workflow_dispatch:
     inputs:
       task:
@@ -40,7 +42,7 @@ jobs:
         # wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         # echo "deb http://apt.llvm.org/$(lsb_release -cs)/llvm-toolchain-$(lsb_release -cs)-$(date +%Y%m)/ main" | sudo tee /etc/apt/sources.list.d/llvm-toolchain.list
         sudo apt-get update
-        apt search clang
+        sudo apt-get autoremove
         sudo apt-get install clang-19 llvm-19 musl-tools musl musl-dev build-essential pkg-config cmake libssl-dev zlib1g-dev libsqlite3-dev protobuf-compiler
         
     - name: Setup environment
