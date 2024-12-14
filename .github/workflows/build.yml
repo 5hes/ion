@@ -24,14 +24,11 @@ jobs:
         # echo "deb http://apt.llvm.org/$(lsb_release -cs)/llvm-toolchain-$(lsb_release -cs)-$(date +%Y%m)/ main" | sudo tee /etc/apt/sources.list.d/llvm-toolchain.list
         sudo apt-get update
         apt search clang
-        sudo apt-get install clang-19 llvm-19 musl-tools
-        # sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-19 100
-        # sudo update-alternatives --install /usr/bin/llvm llvm /usr/bin/llvm-19 100
+        sudo apt-get install clang-19 llvm-19 musl-tools musl musl-dev build-essential pkg-config cmake libssl-dev zlib1g-dev libsqlite3-dev protobuf-compiler
         
     - name: Setup environment
       run: |
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rustup-init.sh
-        # wget -O rustup-init.sh "https://sh.rustup.rs"
         chmod 777 rustup-init.sh
         ./rustup-init.sh --help
         bash rustup-init.sh -y --default-toolchain nightly
@@ -44,13 +41,13 @@ jobs:
         
     - name: Build
       run: |
-        # export CC_aarch64_unknown_linux_musl=clang
-        # export AR_aarch64_unknown_linux_musl=llvm-ar
-        # export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS="-Clink-self-contained=yes -Clinker=rust-lld"
+        export CC_aarch64_unknown_linux_musl=clang-19
+        export AR_aarch64_unknown_linux_musl=llvm-ar
+        export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS="-Clink-self-contained=yes -Clinker=rust-lld"
         
         export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=ld.lld
         export CC=clang-19
-        
+        export CXX=clang++-19
         CC=clang-19 cargo build --target aarch64-unknown-linux-musl --release
 
     - name: Check info
