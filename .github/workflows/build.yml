@@ -62,7 +62,6 @@ jobs:
         clang -v
         clang-19 -v
         llvm-ar-19 -v
-        apt-cache policy llvm-19
 
     - name: Build
       run: |
