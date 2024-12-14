@@ -24,8 +24,8 @@ jobs:
         # echo "deb http://apt.llvm.org/$(lsb_release -cs)/llvm-toolchain-$(lsb_release -cs)-$(date +%Y%m)/ main" | sudo tee /etc/apt/sources.list.d/llvm-toolchain.list
         sudo apt-get update
         apt search clang
-        sudo apt-get install clang-19 llvm-19
-        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-19 100
+        sudo apt-get install clang-19 llvm-19 musl-tools
+        # sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-19 100
         # sudo update-alternatives --install /usr/bin/llvm llvm /usr/bin/llvm-19 100
         
     - name: Setup environment
@@ -50,6 +50,7 @@ jobs:
         
         export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=ld.lld
         export CC=clang-19
+        
         CC=clang-19 cargo build --target aarch64-unknown-linux-musl --release
 
     - name: Check info
