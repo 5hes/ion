@@ -98,19 +98,67 @@ users = "*"
 redox_users = "*"
 
 [target."cfg(target_os = \"dragonfly\")".dependencies]
+
+[target.aarch64-unknown-linux-musl]
+linker = "clang"
+ar = "llvm-ar"
+rustflags = [
+    "-C", "target-feature=+neon",  # 启用 NEON 指令集
+    "-C", "target-feature=+crt-static",  # 使用静态链接
+    "-C", "link-arg=-Wl,--gc-sections",  # 去除未使用的部分
+]
+
 errno-dragonfly = "*"
 
 [lib]
 path = "src/lib/lib.rs"
 
+# [profile.dev]
+# opt-level = 0
+# debug = true
+
 [profile.dev]
 opt-level = 0
 debug = true
+split-debuginfo = '...'  # Platform-specific.
+strip = "none"
+debug-assertions = true
+overflow-checks = true
+lto = false
+panic = 'unwind'
+incremental = true
+codegen-units = 256
+rpath = false
+
+# [profile.release]
+# opt-level = 3
+# debug = false
+# split-debuginfo = '...'  # Platform-specific.
+# strip = "none"
+# debug-assertions = false
+# overflow-checks = false
+# lto = false
+# panic = 'unwind'
+# incremental = false
+# codegen-units = 16
+# rpath = false
 
 [profile.release]
+codegen-units = 1
+level = "3"
+strip = true
 lto = true
 panic = "abort"
 
 # Required to make `cargo vendor` work
 [patch.crates-io]
 redox_liner = { git = "https://gitlab.redox-os.org/redox-os/liner" }
+
+
+
+
+
+
+
+
+
