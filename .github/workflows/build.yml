@@ -77,7 +77,7 @@ jobs:
         cargo clean
         cargo add decimal
         rustup update
-        export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=ld.lld
+        export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=ld.lld-19
         export CC=clang-19
         export CXX=clang++-19
         CC=clang-19 cargo build --target aarch64-unknown-linux-musl --release
