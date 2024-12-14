@@ -26,23 +26,24 @@ jobs:
         echo "deb http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
         echo "deb http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
 
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-19 main" | sudo tee /etc/apt/sources.list.d/llvm-toolchain.list
+
     - name: Add Ubuntu GPG key
       run: |
         # 添加 Ubuntu 官方 GPG 密钥
         curl -fsSL http://archive.ubuntu.com/ubuntu/project/ubuntu-archive-keyring.gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/ubuntu.gpg
 
-    - name: Set up LLVM APT repository
+    - name: Check llvm
       run: |
         sudo apt-get update
-        sudo apt-get install -y wget curl
+        apt-cache search llvm
         
-        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-        echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-19 main" | sudo tee /etc/apt/sources.list.d/llvm-toolchain.list
+    - name: Set up LLVM APT repository
+      run: |
         # wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         # echo "deb http://apt.llvm.org/$(lsb_release -cs)/llvm-toolchain-$(lsb_release -cs)-$(date +%Y%m)/ main" | sudo tee /etc/apt/sources.list.d/llvm-toolchain.list
-        sudo apt-get update
-        sudo apt-get autoremove
-        sudo apt-get install clang llvm musl-tools musl musl-dev build-essential pkg-config cmake libssl-dev zlib1g-dev libsqlite3-dev protobuf-compiler libffi7 libc6-dev-arm64-cross gcc-multilib
+        sudo apt-get install clang-19 llvm-19 musl-tools musl musl-dev build-essential pkg-config cmake libssl-dev zlib1g-dev libsqlite3-dev protobuf-compiler libffi7 libc6-dev-arm64-cross gcc-multilib
         
     - name: Setup environment
       run: |
