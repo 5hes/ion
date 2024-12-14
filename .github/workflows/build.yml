@@ -50,7 +50,7 @@ jobs:
         
         export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=ld.lld
         export CC=clang-19
-        CC=clang cargo build --target aarch64-unknown-linux-musl --release
+        CC=clang-19 cargo build --target aarch64-unknown-linux-musl --release
 
     - name: Check info
       run: |
