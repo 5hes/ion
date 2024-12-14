@@ -116,6 +116,9 @@ opt-level = 0
 debug = true
 
 [profile.release]
+codegen-units = 1
+level = "3"
+strip = true
 lto = true
 panic = "abort"
 
