@@ -59,9 +59,9 @@ jobs:
         
     - name: Check compiler
       run: |
-        clang -v
-        clang-19 -v
-        llvm-ar-19 -v
+        # clang -v
+        # clang-19 -v
+        # llvm-ar-19 --version
 
     - name: Build
       run: |
