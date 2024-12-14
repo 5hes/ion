@@ -43,7 +43,7 @@ jobs:
       run: |
         # wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         # echo "deb http://apt.llvm.org/$(lsb_release -cs)/llvm-toolchain-$(lsb_release -cs)-$(date +%Y%m)/ main" | sudo tee /etc/apt/sources.list.d/llvm-toolchain.list
-        sudo apt-get install clang-19 llvm-19 musl-tools musl musl-dev build-essential pkg-config cmake libssl-dev zlib1g-dev libsqlite3-dev protobuf-compiler libffi7 libc6-dev-arm64-cross gcc-multilib
+        sudo apt-get install clang-19 llvm-19 llvm-19-tools llvm-19-runtime llvm-19-examples llvm-19-linker-tools llvm-19-dev musl-tools musl musl-dev build-essential pkg-config cmake libssl-dev zlib1g-dev libsqlite3-dev protobuf-compiler libffi7 libc6-dev-arm64-cross gcc-multilib
         
     - name: Setup environment
       run: |
@@ -57,6 +57,7 @@ jobs:
       run: |
         clang -v
         clang-19 -v
+        llvm-ar -v
         apt-cache policy llvm-19
 
     - name: Build
