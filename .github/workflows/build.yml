@@ -25,6 +25,8 @@ jobs:
         sudo apt-get update
         apt search clang
         sudo apt-get install clang-19 llvm-19
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-19 100
+        sudo update-alternatives --install /usr/bin/llvm llvm /usr/bin/llvm-19 100
         
     - name: Setup environment
       run: |
@@ -38,6 +40,7 @@ jobs:
     - name: Check compiler
       run: |
         clang -v
+        clang-19 -v
         
     - name: Build
       run: |
