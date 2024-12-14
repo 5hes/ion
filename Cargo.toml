@@ -102,11 +102,11 @@ redox_users = "*"
 [target.aarch64-unknown-linux-musl]
 linker = "ld.lld"
 ar = "llvm-ar"
-rustflags = [
-    "-C", "target-feature=+neon",  # 启用 NEON 指令集
-    "-C", "target-feature=+crt-static",  # 使用静态链接
-    "-C", "link-arg=-Wl,--gc-sections",  # 去除未使用的部分
-]
+# rustflags = [
+#     "-C", "target-feature=+neon",  # 启用 NEON 指令集
+#     "-C", "target-feature=+crt-static",  # 使用静态链接
+#     "-C", "link-arg=-Wl,--gc-sections",  # 去除未使用的部分
+# ]
 
 errno-dragonfly = "*"
 
