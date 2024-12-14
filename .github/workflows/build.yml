@@ -23,7 +23,7 @@ jobs:
         # wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         # echo "deb http://apt.llvm.org/$(lsb_release -cs)/llvm-toolchain-$(lsb_release -cs)-$(date +%Y%m)/ main" | sudo tee /etc/apt/sources.list.d/llvm-toolchain.list
         sudo apt-get update
-        sudo apt-get install clang
+        sudo apt-get install clang llvm
         
     - name: Setup environment
       run: |
@@ -43,7 +43,7 @@ jobs:
         # export CC_aarch64_unknown_linux_musl=clang
         # export AR_aarch64_unknown_linux_musl=llvm-ar
         # export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS="-Clink-self-contained=yes -Clinker=rust-lld"
-        cargo build --target aarch64-unknown-linux-musl --release
+        CC=clang cargo build --target aarch64-unknown-linux-musl --release
 
     - name: Check info
       run: |
