@@ -117,7 +117,7 @@ debug = true
 
 [profile.release]
 codegen-units = 1
-level = "3"
+level = "z"
 strip = true
 lto = true
 panic = "abort"
