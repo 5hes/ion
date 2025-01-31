@@ -35,7 +35,7 @@ jobs:
         mkdir .zig && cd .zig && curl -o zig.tar.xz "https://ziglang.org/builds/zig-linux-x86_64-0.14.0-dev.2992+78b7a446f.tar.xz"
         tar -xf zig.tar.xz && rm zig.tar.xz && mv * zig
         cd zig && export PATH=$PATH:$PWD && cd ../..
-        export CC_aarch64_unknown_linux_musl="zig cc -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all"
+        export CC_aarch64_unknown_linux_musl="zig cc -target aarch64-linux-musl -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all"
         export AR_aarch64_unknown_linux_musl=llvm-ar-19
         # export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS="-Clink-self-contained=yes -Clinker=rust-lld"
 
@@ -50,18 +50,18 @@ jobs:
         export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=ld.lld-19
         export CC="zig cc -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all"
         export CXX="zig c++ -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all"
-        CC="zig cc -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all" cargo build --target aarch64-linux-musl --release
+        CC="zig cc -target aarch64-linux-musl -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all" cargo build --target aarch64-unknown-linux-musl --release
 
     - name: Check info
       run: |
         ls -ltrah
-        ls -ltrah target/aarch64-linux-musl/release/
+        ls -ltrah target/aarch64-unknown-linux-musl/release/
         tree
 
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        path: target/aarch64-linux-musl/release/ion
+        path: target/aarch64-unknown-linux-musl/release/ion
 
 
 
