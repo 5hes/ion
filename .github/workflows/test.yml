@@ -1,0 +1,67 @@
+name: Build with zig
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "Build binary for aarch64"
+        required: true
+        type: boolean
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+        
+    - name: Setup llvm
+      run: |
+        sudo apt-get install musl-tools musl musl-dev build-essential pkg-config cmake libssl-dev zlib1g-dev libsqlite3-dev protobuf-compiler libffi7 libc6-dev-arm64-cross gcc-multilib
+        curl -O https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 19 all
+        
+    - name: Setup environment
+      run: |
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rustup-init.sh
+        chmod 777 rustup-init.sh
+        ./rustup-init.sh --help
+        bash rustup-init.sh -y --default-toolchain nightly
+        rustup target add aarch64-unknown-linux-musl --toolchain=nightly
+        
+    - name: Build
+      run: |
+        mkdir .zig && cd .zig && curl -o zig.tar.xz "https://ziglang.org/builds/zig-linux-x86_64-0.14.0-dev.2992+78b7a446f.tar.xz"
+        tar -xf zig.tar.xz && rm zig.tar.xz && mv * zig
+        cd zig && export PATH=$PATH:$PWD && cd ../..
+        export CC_aarch64_unknown_linux_musl="zig cc -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all"
+        export AR_aarch64_unknown_linux_musl=llvm-ar-19
+        # export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS="-Clink-self-contained=yes -Clinker=rust-lld"
+
+        mv Cargo.toml.bak Cargo.toml
+        mv Cargo.lock.bak Cargo.lock
+        rm /home/runner/.cargo/bin/rust-analyzer
+        rm /home/runner/.cargo/bin/rustfmt
+        rm /home/runner/.cargo/bin/cargo-fmt
+        cargo clean
+        cargo add decimal
+        rustup update
+        export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=ld.lld-19
+        export CC="zig cc -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all"
+        export CXX="zig c++ -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all"
+        CC="zig cc -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all" cargo build --target aarch64-unknown-linux-musl --release
+
+    - name: Check info
+      run: |
+        ls -ltrah
+        ls -ltrah target/aarch64-unknown-linux-musl/release/
+        tree
+
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        path: target/aarch64-unknown-linux-musl/release/ion
+
+
+
