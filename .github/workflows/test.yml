@@ -1,4 +1,4 @@
-name: Build with zig
+name: Build using zig
 on:
   push:
   workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
         
     - name: Setup llvm
       run: |
-        sudo apt-get install musl-tools musl musl-dev build-essential pkg-config cmake libssl-dev zlib1g-dev libsqlite3-dev protobuf-compiler libffi7 libc6-dev-arm64-cross gcc-multilib
+        sudo apt-get install musl-tools musl musl-dev build-essential pkg-config cmake libssl-dev zlib1g-dev libsqlite3-dev protobuf-compiler libc6-dev-arm64-cross gcc-multilib
         curl -O https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
         sudo ./llvm.sh 19 all
