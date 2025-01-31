@@ -50,18 +50,18 @@ jobs:
         export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=ld.lld-19
         export CC="zig cc -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all"
         export CXX="zig c++ -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all"
-        CC="zig cc -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all" cargo build --target aarch64-unknown-linux-musl --release
+        CC="zig cc -O3 -ffunction-sections -fdata-sections -flto -ffast-math -funroll-loops -fvectorize -momit-leaf-frame-pointer -static -fno-exceptions -fno-stack-protector -Wl,--gc-sections -Wl,--strip-all" cargo build --target aarch64-linux-musl --release
 
     - name: Check info
       run: |
         ls -ltrah
-        ls -ltrah target/aarch64-unknown-linux-musl/release/
+        ls -ltrah target/aarch64-linux-musl/release/
         tree
 
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        path: target/aarch64-unknown-linux-musl/release/ion
+        path: target/aarch64-linux-musl/release/ion
 
 
 
