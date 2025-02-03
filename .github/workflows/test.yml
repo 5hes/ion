@@ -1,6 +1,5 @@
 name: Build using zig
 on:
-  push:
   workflow_dispatch:
     inputs:
       task:
