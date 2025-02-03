@@ -1,5 +1,6 @@
 name: Build
 on:
+  push:
   workflow_dispatch:
     inputs:
       task:
@@ -13,6 +14,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    
+    - name: Push a tag to release
+      run: |
+        git tag nightly
+        git push origin nightly
 
     - name: Replace software sources with the latest
       run: |
@@ -91,7 +97,12 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         path: target/aarch64-unknown-linux-musl/release/ion
-
+   
+    - uses: softprops/action-gh-release@v2
+      with:
+        tag_name: nightly
+        files: target/aarch64-unknown-linux-musl/release/ion
+      
     
     
    
